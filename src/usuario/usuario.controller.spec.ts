@@ -4,6 +4,7 @@ import { UsuarioService } from './usuario.service';
 
 describe('UsuarioController', () => {
   let controller: UsuarioController;
+  let service: UsuarioService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -12,9 +13,13 @@ describe('UsuarioController', () => {
     }).compile();
 
     controller = module.get<UsuarioController>(UsuarioController);
+    service = module.get<UsuarioService>(UsuarioService);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  describe('listaTodosUsuarios', () => {
+    it('should call listaTodosUsuarios method of UsuarioService', () => {
+      controller.listaTodosUsuarios();
+      expect(service.listaTodosUsuarios).toHaveBeenCalled();
+    });
   });
 });

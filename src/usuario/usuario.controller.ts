@@ -1,14 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
+import { CriaUsuarioDto } from './dto/cria-usuario.dto';
 
 @Controller('usuario')
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
-  // @Post()
-  // create(@Body() createUsuarioDto: CreateUsuarioDto) {
-  //   return this.usuarioService.create(createUsuarioDto);
-  // }
+  @Post()
+  cria(@Body() criaUsuarioDto: CriaUsuarioDto) {
+    return this.usuarioService.criaUsuario(criaUsuarioDto);
+  }
 
   @Get()
   listaTodosUsuarios() {

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Usuario } from './entities/usuario.entity';
 import { Repository } from 'typeorm';
 import { ListaUsuarioDto } from './dto/lista-usuario.dto';
+import { CriaUsuarioDto } from './dto/cria-usuario.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -11,9 +12,9 @@ export class UsuarioService {
     private readonly usuarioRepository: Repository<Usuario>,
   ) {}
 
-  // criaUsuario(criaUsuarioDto: CriaUsuarioDto) {
-  //   return 'This action adds a new usuario';
-  // }
+  async criaUsuario(criaUsuarioDto: CriaUsuarioDto) {
+    return await this.usuarioRepository.save(criaUsuarioDto);
+  }
 
   async listaTodosUsuarios() {
     const todosUsuarios = await this.usuarioRepository.find();
