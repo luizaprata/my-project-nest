@@ -7,8 +7,8 @@ import {
   DeleteDateColumn,
   OneToMany,
 } from 'typeorm';
-import { ProdutoCaracteristica } from './produto-caracteristica';
-import { ProdutoImagem } from './produto-imagem';
+import { ProdutoCaracteristica } from './produto-caracteristica.entity';
+import { ProdutoImagem } from './produto-imagem.entity';
 
 @Entity({ name: 'produtos' })
 export class Produto {
@@ -36,10 +36,14 @@ export class Produto {
   @OneToMany(
     () => ProdutoCaracteristica,
     (caracteristicaProduto) => caracteristicaProduto.produto,
+    { cascade: true, eager: true },
   )
   caracteristicas: ProdutoCaracteristica[];
 
-  @OneToMany(() => ProdutoImagem, (imagemProduto) => imagemProduto.produto)
+  @OneToMany(() => ProdutoImagem, (imagemProduto) => imagemProduto.produto, {
+    cascade: true,
+    eager: true,
+  })
   imagens: ProdutoImagem[];
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })

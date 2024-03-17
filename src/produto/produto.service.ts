@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CriaProdutoDto } from './dto/cria-produto.dto';
 import { ListaProdutoDto } from './dto/lista-produto.dto';
 import { AtualizaProdutoDto } from './dto/atualiza-produto.dto';
+import { ListaProdutoImagemDto } from './dto/lista-produto-imagem';
 
 @Injectable()
 export class ProdutoService {
@@ -15,9 +16,17 @@ export class ProdutoService {
 
   async listaTodosProdutos() {
     const listaTodosProdutos = await this.produtoRepository.find();
-    return listaTodosProdutos.map(
-      (produto) => new ListaProdutoDto(produto.id, produto.nome, produto.valor),
-    );
+    return listaTodosProdutos.map((produto) => {
+      const imagens = produto.imagens.map(
+        (imagem) => new ListaProdutoImagemDto(imagem.url),
+      );
+      return new ListaProdutoDto(
+        produto.id,
+        produto.nome,
+        produto.valor,
+        imagens,
+      );
+    });
   }
 
   async criaProduto(criaProdutoDto: CriaProdutoDto) {
@@ -30,7 +39,16 @@ export class ProdutoService {
         id,
       },
     });
-    return new ListaProdutoDto(produto.id, produto.nome, produto.valor);
+
+    const imagens = produto.imagens.map(
+      (imagem) => new ListaProdutoImagemDto(imagem.url),
+    );
+    return new ListaProdutoDto(
+      produto.id,
+      produto.nome,
+      produto.valor,
+      imagens,
+    );
   }
 
   async atualizaProduto(id: string, atualizaProdutoDto: AtualizaProdutoDto) {
