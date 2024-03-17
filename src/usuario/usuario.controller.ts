@@ -29,12 +29,12 @@ export class UsuarioController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  encontreUsuario(@Param('id') id: string) {
     return this.usuarioService.encontreUsuario(id);
   }
 
   @Patch(':id')
-  update(
+  atualizaUsuario(
     @Param('id') id: string,
     @Body() updateUsuarioDto: AtualizaUsuarioDto,
   ) {
