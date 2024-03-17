@@ -1,9 +1,21 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Logger,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { CriaUsuarioDto } from './dto/cria-usuario.dto';
+import { AtualizaUsuarioDto } from './dto/atualiza-usuario.dto';
 
 @Controller('usuario')
 export class UsuarioController {
+  private readonly logger = new Logger(UsuarioController.name);
+
   constructor(private readonly usuarioService: UsuarioService) {}
 
   @Post()
@@ -16,18 +28,21 @@ export class UsuarioController {
     return this.usuarioService.listaTodosUsuarios();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.usuarioService.findOne(+id);
-  // }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.usuarioService.encontreUsuario(id);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-  //   return this.usuarioService.update(+id, updateUsuarioDto);
-  // }
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateUsuarioDto: AtualizaUsuarioDto,
+  ) {
+    return this.usuarioService.atualizaUsuario(id, updateUsuarioDto);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.usuarioService.remove(+id);
-  // }
+  @Delete(':id')
+  removeUsuario(@Param('id') id: string) {
+    return this.usuarioService.removeUsuario(id);
+  }
 }

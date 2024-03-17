@@ -4,6 +4,7 @@ import { Usuario } from './entities/usuario.entity';
 import { Repository } from 'typeorm';
 import { ListaUsuarioDto } from './dto/lista-usuario.dto';
 import { CriaUsuarioDto } from './dto/cria-usuario.dto';
+import { AtualizaUsuarioDto } from './dto/atualiza-usuario.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -23,15 +24,20 @@ export class UsuarioService {
     );
   }
 
-  // encontreUsuario(id: number) {
-  //   return `This action returns a #${id} usuario`;
-  // }
+  async encontreUsuario(id: string) {
+    const usuario = await this.usuarioRepository.findOne({
+      where: {
+        id,
+      },
+    });
+    return new ListaUsuarioDto(usuario.id, usuario.nome);
+  }
 
-  // atualizaUsuario(id: number, atualizaUsuarioDto: AtualizaUsuarioDto) {
-  //   return `This action updates a #${id} usuario`;
-  // }
+  async atualizaUsuario(id: string, atualizaUsuarioDto: AtualizaUsuarioDto) {
+    return await this.usuarioRepository.update(id, atualizaUsuarioDto);
+  }
 
-  // removeUsuario(id: number) {
-  //   return `This action removes a #${id} usuario`;
-  // }
+  async removeUsuario(id: string) {
+    return await this.usuarioRepository.delete(id);
+  }
 }
