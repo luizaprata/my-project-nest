@@ -1,6 +1,6 @@
-import { IsNotEmpty, IsUrl } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
-export class CriaProdutoImagemDto {
+export class CriaProdutoCaracteristicaDto {
   produtoId: string;
 
   @IsNotEmpty({ message: 'Nome da característica do produto obrigatória' })

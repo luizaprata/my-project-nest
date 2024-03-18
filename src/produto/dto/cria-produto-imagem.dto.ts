@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsUrl } from 'class-validator';
 
 export class CriaProdutoImagemDto {
-  produtoId: string;
+  produtoId: string = '';
 
   @IsNotEmpty({ message: 'URL da imagem obrigatória' })
   @IsUrl({}, { message: 'URL inválida' })

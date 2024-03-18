@@ -1,5 +1,12 @@
-import { IsNotEmpty, IsNumber, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  ArrayMinSize,
+  ValidateNested,
+} from 'class-validator';
 import { CriaProdutoImagemDto } from './cria-produto-imagem.dto';
+import { CriaProdutoCaracteristicaDto } from './cria-produto-caracteristica.dto';
+import { Type } from 'class-transformer';
 
 export class CriaProdutoDto {
   @IsNotEmpty({ message: 'Nome obrigatório' })
@@ -22,8 +29,15 @@ export class CriaProdutoDto {
   @IsNotEmpty({ message: 'Nome obrigatório' })
   categoria: string;
 
-  @MinLength(1, { message: 'Deve conter pelo menos 1 imagem', each: true })
+  @ArrayMinSize(1, { message: 'Deve conter pelo menos 1 imagem' })
+  @ValidateNested({ each: true })
+  @Type(() => CriaProdutoImagemDto)
   imagens: CriaProdutoImagemDto[];
+
+  @ArrayMinSize(1, { message: 'Deve conter pelo menos 1 característica' })
+  @ValidateNested({ each: true })
+  @Type(() => CriaProdutoCaracteristicaDto)
+  caracteristicas: CriaProdutoCaracteristicaDto[];
 
   constructor(
     usuarioId: string,
@@ -33,6 +47,7 @@ export class CriaProdutoDto {
     descricao: string,
     categoria: string,
     imagens: CriaProdutoImagemDto[],
+    caracteristicas: CriaProdutoCaracteristicaDto[],
   ) {
     this.usuarioId = usuarioId;
     this.nome = nome;
@@ -41,5 +56,6 @@ export class CriaProdutoDto {
     this.descricao = descricao;
     this.categoria = categoria;
     this.imagens = imagens;
+    this.caracteristicas = caracteristicas;
   }
 }
