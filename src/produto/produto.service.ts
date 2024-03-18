@@ -6,12 +6,16 @@ import { CriaProdutoDto } from './dto/cria-produto.dto';
 import { ListaProdutoDto } from './dto/lista-produto.dto';
 import { AtualizaProdutoDto } from './dto/atualiza-produto.dto';
 import { ListaProdutoImagemDto } from './dto/lista-produto-imagem';
+import { ProdutoImagem } from './entities/produto-imagem.entity';
 
 @Injectable()
 export class ProdutoService {
   constructor(
     @InjectRepository(Produto)
     private readonly produtoRepository: Repository<Produto>,
+
+    @InjectRepository(ProdutoImagem)
+    private readonly ProdutoImagemRepository: Repository<ProdutoImagem>,
   ) {}
 
   async listaTodosProdutos() {
@@ -30,7 +34,9 @@ export class ProdutoService {
   }
 
   async criaProduto(criaProdutoDto: CriaProdutoDto) {
-    return await this.produtoRepository.save(criaProdutoDto);
+    console.log('criaProdutoDto', criaProdutoDto);
+    const novoProduto = await this.produtoRepository.save(criaProdutoDto);
+    return novoProduto;
   }
 
   async encontreProduto(id: string) {

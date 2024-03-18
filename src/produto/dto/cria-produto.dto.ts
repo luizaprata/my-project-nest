@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, MinLength } from 'class-validator';
+import { CriaProdutoImagemDto } from './cria-produto-imagem.dto';
 
 export class CriaProdutoDto {
   @IsNotEmpty({ message: 'Nome obrigatório' })
@@ -21,6 +22,9 @@ export class CriaProdutoDto {
   @IsNotEmpty({ message: 'Nome obrigatório' })
   categoria: string;
 
+  @MinLength(1, { message: 'Deve conter pelo menos 1 imagem', each: true })
+  imagens: CriaProdutoImagemDto[];
+
   constructor(
     usuarioId: string,
     nome: string,
@@ -28,6 +32,7 @@ export class CriaProdutoDto {
     quantidade: number,
     descricao: string,
     categoria: string,
+    imagens: CriaProdutoImagemDto[],
   ) {
     this.usuarioId = usuarioId;
     this.nome = nome;
@@ -35,5 +40,6 @@ export class CriaProdutoDto {
     this.quantidade = quantidade;
     this.descricao = descricao;
     this.categoria = categoria;
+    this.imagens = imagens;
   }
 }
